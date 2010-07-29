@@ -1,5 +1,8 @@
 TODOLIST: for v0.2.0 release
 
+Whenever you complete a TODO, remove the description and put FINISHED after it
+Better yet! use the wiki
+
 Functions to implement:
 	video.text.clearScreen() : clears the standard screen
 	video.text.scrollScreen() : uses hardware scrolling
