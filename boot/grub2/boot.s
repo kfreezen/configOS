@@ -14,13 +14,6 @@ _SHORT			equ		2
 _INT			equ		4
 _LONG			equ		8
 
-[section .text]
-
-global start
-
-extern main
-extern start_ctors, end_ctors, start_dtors, end_dtors
-
 [section .multiboot] ; I am going to fix this grub multiboot question with 4 multiboot headers
 multiboot:
 	dd MAGIC_NUM
@@ -41,6 +34,13 @@ end_tags:
 	dw 0
 	dd 8
 end_multiboot:
+
+[section .text]
+
+global start
+
+extern main
+extern start_ctors, end_ctors, start_dtors, end_dtors
 
 STACKSIZE equ 0x4000  ; 16k if you're wondering
  
