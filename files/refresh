@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# copy over important files
+
+cp kernel.sys /media/GRUB/system/kernel.sys
+
+# refresh
+
+umount /media/GRUB
+mount -t /dev/loop0
