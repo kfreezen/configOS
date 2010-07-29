@@ -8,7 +8,7 @@ BOOTLOADER:=grub
 BOOTDIR:=boot
 
 COMPILER:=$(SILENT)gdc
-COMPILERFLAGS:=-m32 -nostdlib -nodefaultlibs -g -c
+COMPILERFLAGS:=-m32 -nostdlib -nodefaultlibs -g -c -O0
 
 LDFLAGS:=-Tlink.ld
 
@@ -27,11 +27,13 @@ CURDSRC=$(patsubst %.d, %.o, $<)
 all: $(SOURCES) link
 
 clean:
-	-$(SILENT)rm *.o kernel
+	-$(SILENT)rm $(SOURCES)
 
 link:
 	@echo Object Files are $(SOURCES)
 	$(SILENT)ld $(LDFLAGS) -o $(KERNEL) $(SOURCES) -melf_i386
+	./refresh
+	-$(SILENT)rm $(SOURCES)
 	
 %.od:%.d
 	$(COMPILER) $(COMPILERFLAGS) $< -o $@
