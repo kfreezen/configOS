@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# copy over important files
+
+sudo cp kernel.sys /media/GRUB/system/kernel.sys
+
+# refresh
+
+sudo umount /media/GRUB
+sudo mount /dev/loop0 /media/GRUB
