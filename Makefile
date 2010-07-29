@@ -4,7 +4,7 @@ KERNEL:=kernel.sys
 # leave boot out of PROJDIRS. it needs some special processing
 PROJDIRS:=kernel video runtimes
 
-BOOTLOADER:=grub2
+BOOTLOADER:=grub
 BOOTDIR:=boot
 
 COMPILER:=$(SILENT)gdc
