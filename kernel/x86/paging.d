@@ -13,3 +13,5 @@ static void initPageDir() {
 		pageDir[i] = 0 | 2;
 	}
 	
+	// FINISH THIS OUT!
+}
