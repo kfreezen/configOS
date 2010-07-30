@@ -21,10 +21,15 @@ ubyte getAttr() {
 	return screen.attr;
 }
 
+uint getY() {
+	return screen.pos.y;
+}
+
 void internal_putc(char character) {
 	if(character == '\n') {
 		screen.pos.x = 0;
 		screen.pos.y ++;
+		scroll();
 	} else if(character == '\r') {
 		screen.pos.x = 0;
 	} else if(character == '\b' && screen.pos.x < 0) {
@@ -43,6 +48,7 @@ void internal_putc(char character) {
 		screen.pos.x = 0;
 		screen.pos.y ++;
 	}
+
 }
 
 void gotoXY(uint x, uint y) {

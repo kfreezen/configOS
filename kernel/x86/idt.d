@@ -1,6 +1,7 @@
 module kernel.x86.idt;
 
 import misc.common;
+import kernel.io;
 
 align(1) struct idtEntry {
 	ushort baseLow;
@@ -47,6 +48,22 @@ extern (C) void isr28();
 extern (C) void isr29();
 extern (C) void isr30();
 extern (C) void isr31();
+extern (C) void isr32();
+extern (C) void isr33();
+extern (C) void isr34();
+extern (C) void isr35();
+extern (C) void isr36();
+extern (C) void isr37();
+extern (C) void isr38();
+extern (C) void isr39();
+extern (C) void isr40();
+extern (C) void isr41();
+extern (C) void isr42();
+extern (C) void isr43();
+extern (C) void isr44();
+extern (C) void isr45();
+extern (C) void isr46();
+extern (C) void isr47();
 
 extern (C) void flushIdt(uint idtr);
 
@@ -54,6 +71,18 @@ idtEntry idtEntries[256];
 idtPtr idtPointer;
 
 static void initIdt() {
+
+	outb(0x20, 0x11);
+  	outb(0xA0, 0x11);
+  	outb(0x21, 0x20);
+  	outb(0xA1, 0x28);
+  	outb(0x21, 0x04);
+  	outb(0xA1, 0x02);
+  	outb(0x21, 0x01);
+  	outb(0xA1, 0x01);
+  	outb(0x21, 0x0);
+  	outb(0xA1, 0x0);
+  	
 	idtPointer.limit = (idtEntry.sizeof * 256) - 1;
 	idtPointer.base = cast(uint) &idtEntries;
 	
@@ -91,7 +120,23 @@ static void initIdt() {
 	idtSet(29, cast(uint) &isr29, 0x08, 0x8e);
 	idtSet(30, cast(uint) &isr30, 0x08, 0x8e);
 	idtSet(31, cast(uint) &isr31, 0x08, 0x8e);
-	
+	idtSet(32, cast(uint) &isr32, 0x08, 0x8e);
+	idtSet(33, cast(uint) &isr33, 0x08, 0x8e);
+	idtSet(34, cast(uint) &isr34, 0x08, 0x8e);
+	idtSet(35, cast(uint) &isr35, 0x08, 0x8e);
+	idtSet(36, cast(uint) &isr36, 0x08, 0x8e);
+	idtSet(37, cast(uint) &isr37, 0x08, 0x8e);
+	idtSet(38, cast(uint) &isr38, 0x08, 0x8e);
+	idtSet(39, cast(uint) &isr39, 0x08, 0x8e);
+	idtSet(40, cast(uint) &isr40, 0x08, 0x8e);
+	idtSet(41, cast(uint) &isr41, 0x08, 0x8e);
+	idtSet(42, cast(uint) &isr42, 0x08, 0x8e);
+	idtSet(43, cast(uint) &isr43, 0x08, 0x8e);
+	idtSet(44, cast(uint) &isr44, 0x08, 0x8e);
+	idtSet(45, cast(uint) &isr45, 0x08, 0x8e);
+	idtSet(46, cast(uint) &isr46, 0x08, 0x8e);
+	idtSet(47, cast(uint) &isr47, 0x08, 0x8e);
+
 	flushIdt(cast(uint) &idtPointer);
 }
 

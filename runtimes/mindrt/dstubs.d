@@ -31,6 +31,9 @@ mixin(Stub!("void _D13TypeInfo_Enum6__vtblZ()"));
 mixin(Stub!("void _D10TypeInfo_k6__initZ()"));
 mixin(Stub!("void __umoddi3()"));
 mixin(Stub!("void __udivdi3()"));
+mixin(Stub!("void _D10TypeInfo_v6__initZ()"));
+mixin(Stub!("void _D16TypeInfo_Pointer6__vtblZ()"));
+mixin(Stub!("void _D17TypeInfo_Function6__vtblZ()"));
 
 /**************************************************
  Lifetime stubs
