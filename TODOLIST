@@ -1,0 +1,16 @@
+TODOLIST: for v0.2.0 release
+
+Whenever you complete a TODO, remove the description and put FINISHED after it
+Better yet! use the wiki
+
+Functions to implement:
+	video.text.clearScreen() : clears the standard screen
+	video.text.scrollScreen() : uses hardware scrolling
+	
+	kernel.io.inb(port) : input a value at port into byte
+	kernel.io.inw(port) : input a value at port into word
+	
+Modules to implement:
+	kernel.x86.gdt : The gdt for intel
+	kernel.x86.idt : The idt for intel
+	kernel.x86.exceptions : Exceptions to ease debugging

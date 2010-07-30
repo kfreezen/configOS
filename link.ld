@@ -3,9 +3,7 @@ ENTRY (start)
 
 SECTIONS{
     . = 0x00100000;
-	.multiboot :{
-		*(.multiboot)
-	}
+
     .text :{
         code = .; _code = .; __code = .;
         *(.text)

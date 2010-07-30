@@ -2,9 +2,10 @@
 
 # copy over important files
 
-cp kernel.sys /media/GRUB/system/kernel.sys
+sudo rm /media/GRUB/system/kernel.sys
+sudo cp kernel.sys /media/GRUB/system/kernel.sys
 
 # refresh
 
-umount /media/GRUB
-mount -t /dev/loop0
+sudo umount /media/GRUB
+sudo mount /dev/loop0 /media/GRUB

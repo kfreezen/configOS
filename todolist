@@ -1,0 +1,1 @@
+video/text/misc.d:extern(C) void clearScreen() { // TODO: take out extern (C)

@@ -31,9 +31,6 @@ mixin(Stub!("void _D13TypeInfo_Enum6__vtblZ()"));
 mixin(Stub!("void _D10TypeInfo_k6__initZ()"));
 mixin(Stub!("void __umoddi3()"));
 mixin(Stub!("void __udivdi3()"));
-mixin(Stub!("void _D10TypeInfo_v6__initZ()"));
-mixin(Stub!("void _D16TypeInfo_Pointer6__vtblZ()"));
-mixin(Stub!("void _D17TypeInfo_Function6__vtblZ()"));
 
 /**************************************************
  Lifetime stubs
@@ -89,7 +86,7 @@ mixin(Stub!("bool onCollectResource( Object obj )"));
 **************************************************/
 
 mixin(Stub!("void onFinalizeError( ClassInfo info, Exception ex )"));
-// mixin(Stub!("void onOutOfMemoryError()"));
+mixin(Stub!("void onOutOfMemoryError()"));
 mixin(Stub!("void onUnicodeError( char[] msg, size_t idx )"));
 mixin(Stub!("void _d_throw_exception(Object e)"));
 
