@@ -15,10 +15,11 @@ extern(C) void main(uint magic, uint multibootAddr) {
 	
 	ttyInit();
 	initTimer(1000);
+	
 	asm {
 		sti;
 	};
 	
 	puts("configOS v0.1.5 prerelease\n");
-	
+	puts("work branch\n");
 }
