@@ -2,6 +2,7 @@ module kernel.x86.isr;
 
 import video.text.text;
 import kernel.io;
+import runtimes.mindrt.dstubs;
 
 const int IRQ0 = 32;
 const int IRQ1 = 33;

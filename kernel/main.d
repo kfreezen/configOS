@@ -6,10 +6,12 @@ import video.text.misc;
 import kernel.x86.gdt;
 import kernel.x86.idt;
 import kernel.x86.pit;
+import kernel.x86.paging;
 
 extern(C) void main(uint magic, uint multibootAddr) {
 	initGdt();
 	initIdt();
+	initPaging();
 	
 	ttyInit();
 	initTimer(1000);
@@ -17,10 +19,6 @@ extern(C) void main(uint magic, uint multibootAddr) {
 		sti;
 	};
 	
-	puts("Hello, world!\n");
-	puts("Hello, world!\n");
+	puts("configOS v0.1.5 prerelease\n");
 	
-	asm {
-		int 0x4;
-	};
 }
