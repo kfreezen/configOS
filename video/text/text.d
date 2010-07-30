@@ -78,4 +78,62 @@ void puts(char* string) {
 	internal_puts(string);
 	moveCursor();
 }
+
+void printx(uint n) {
+	int temp;
+	byte noZeroes = 1;
 	
+	puts("0x");
+	
+	int i;
+	for(i = 28; i > 0; i -= 4) {
+		temp = (n >> i) & 0xf;
+		
+		if(temp == 0 && noZeroes != 0) {
+			continue;
+		}
+		if(temp >= 0xA) {
+			noZeroes = 0;
+			putc(temp-0xA+'A');
+		} else {
+			noZeroes = 0;
+			putc( temp+'0');
+		}
+	}
+	
+	temp = n & 0xf;
+	if (temp >= 0xa) {
+		putc(temp-0xa+'A');
+	} else {
+		putc(temp + '0');
+	}
+}
+
+void printd(uint n) {
+	
+	if(n == 0) {
+		putc('0');
+	} else {
+		int acc = n;
+		char[32] c1;
+		int i = 0;
+		
+		while (acc > 0) {
+			c1[i] = '0' + acc%10;
+			acc /= 10;
+			i++;
+		}
+		c1[i] = 0;
+		
+		char[32] c2;
+		
+		c2[i--] = 0;
+		int j = 0;
+		
+		while(i >= 0) {
+			c2[i--] = c1[j++];
+		}
+		puts(cast(char*) c2);
+	}
+}
+
