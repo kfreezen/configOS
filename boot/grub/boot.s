@@ -31,18 +31,44 @@ mboot:
 	
 [GLOBAL start]
 [EXTERN main]
+extern start_ctors, end_ctors, start_dtors, end_dtors
 
+static_ctors_loop:
+   mov ebx, start_ctors
+   jmp .test
+.body:
+   call [ebx]
+   add ebx,4
+.test:
+   cmp ebx, end_ctors
+   jb .body
+ 
 start:
-		mov		esp, stack+STACKSIZE
-		
-		push	ebx
-		push	eax
-		
-		call 	main
-		
-		jmp		$
-
-section .bss		
-align 4
+	   cli
+       mov esp, STACKSIZE+stack
+ 
+       push eax
+       push ebx
+ 
+       call main
+ 
+static_dtors_loop:
+   mov ebx, start_dtors
+   jmp .test
+.body:
+   call [ebx]
+   add ebx,4
+.test:
+   cmp ebx, end_dtors
+   jb .body
+ 
+ 
+cpuhalt:
+       hlt
+       jmp cpuhalt
+ 
+section .bss
+align 32
+ 
 stack:
-	resb STACKSIZE
+      resb      STACKSIZE

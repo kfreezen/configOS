@@ -14,7 +14,7 @@ static ubyte inb(ushort port) {
 	asm {
 		mov DX, port;
 		in AL, DX;
-		mov AL, returnValue;
+		mov returnValue, AL;
 	};
 	return returnValue;
 }

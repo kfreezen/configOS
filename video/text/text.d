@@ -35,8 +35,10 @@ void internal_putc(char character) {
 		scroll();
 	} else if(character == '\r') {
 		screen.pos.x = 0;
-	} else if(character == '\b' && screen.pos.x < 0) {
+	} else if(character == '\b' && screen.pos.x > 0) {
 		screen.pos.x --;
+		putc(' ');
+		screen.pos.x--;
 	} else if(character == '\t') {
 		screen.pos.x = (screen.pos.x + 8) & ~(8-1);
 	} else if(character >= ' ') {

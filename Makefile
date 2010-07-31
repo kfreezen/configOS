@@ -41,7 +41,7 @@ link:
 	@echo
 	$(SILENT)ld $(LDFLAGS) -o $(KERNEL) $(SOURCES) -melf_i386
 
-	@./refresh
+	@./refresh 1
 	-$(SILENT)rm $(SOURCES)
 	@echo
 	@objdump -d kernel.sys > kernel.asm
