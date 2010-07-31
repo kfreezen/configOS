@@ -30,9 +30,14 @@ align(1) struct registers {
 };
 
 extern (C) void isrHandler(registers regs) {
-	puts("recieved interrupt: ");
-	printd(regs.intNo);
-	putc('\n');
+	if(intHandlers[regs.intNo] != cast(isr) 0) {
+		isr handler = intHandlers[regs.intNo];
+		handler(regs);
+	} else {
+		puts("recieved interrupt: ");
+		printd(regs.intNo);
+		putc('\n');
+	}
 }
 
 extern (C) void irqHandler(registers regs) {

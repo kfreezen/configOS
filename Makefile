@@ -26,7 +26,7 @@ ASFLAGS:=-felf
 
 CURDSRC=$(patsubst %.d, %.o, $<)
 
-all: $(SOURCES) link todolist
+all: $(SOURCES) link todolist emu
 
 TODOLIST:
 	-$(SILENT)rm todolist
@@ -36,11 +36,17 @@ clean:
 	-$(SILENT)rm $(SOURCES)
 
 link:
+	@echo
 	@echo Object Files are $(SOURCES)
+	@echo
 	$(SILENT)ld $(LDFLAGS) -o $(KERNEL) $(SOURCES) -melf_i386
-	./refresh
+	@./refresh
 	-$(SILENT)rm $(SOURCES)
-	objdump -d kernel.sys > kernel.asm
+	@echo
+	@objdump -d kernel.sys > kernel.asm
+	@echo
 %.od:%.d
 	$(COMPILER) $(COMPILERFLAGS) $< -o $@
 	
+emu:
+	@qemu -fda files/grub_disk.img -m 128

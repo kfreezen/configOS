@@ -3,6 +3,7 @@ module video.text.misc;
 import video.text.text;
 
 import kernel.io;
+import misc.common;
 
 uint last_line = 25;
 
@@ -14,7 +15,7 @@ extern(C) void clearScreen() { // TODO: take out extern (C)
 	char blank = ' ';
 	
 	int i;
-	for(i=0; i < 80*100; i++) {
+	for(i=0; i < 80*101; i++) {
 		char* loc = vmem + i;
 		*loc++ = blank;
 		*(loc) = getAttr();
@@ -24,6 +25,11 @@ extern(C) void clearScreen() { // TODO: take out extern (C)
 	gotoXY(0,0);
 	moveCursor();
 
+}
+
+void panicInit() {
+	setAttr(0x1F);
+	clearScreen();
 }
 
 /* Please use only scrollScreenDown() and scrollScreenUp() to scroll the
@@ -81,13 +87,23 @@ static void scrollScreenUp() {
 }
 
 static void scroll() {
-	if(last_line >= 100) {
+	if(last_line >= 175) {
 		clearScreen();
 		setStartAddr(0);
 		curStart = 0;
 		last_line = 25;
 	} else if(getY() >= last_line){
 		scrollScreenDown();
+		
+		ushort* vmem = cast(ushort*) 0xB8000;
+		vmem += last_line*80;
+		
+		int k;
+		for(k = 0; k < 80; k++) {	
+			vmem[k] = cast(ushort) 0x0720;
+		}
+		
+	} else if(getY() < last_line) {
 	}
 }
 

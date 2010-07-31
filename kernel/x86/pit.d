@@ -5,6 +5,7 @@ import kernel.x86.isr;
 import kernel.io;
 
 uint tickLow = 0;
+uint seconds = 0;
 
 void initTimer(uint freq) {
 	registerInterrupt(IRQ0, &timerCallback);
@@ -18,13 +19,26 @@ void initTimer(uint freq) {
 	
 	outb(0x40, low);
 	outb(0x40, high);
-	
+	frq = freq;
+}
+
+uint frq;
+
+uint sleep_time = 0;
+
+void sleep(uint ticks) {
+	sleep_time = ticks;
+	while(sleep_time != 0) {
+	}
 }
 
 static void timerCallback(registers regs) {
 	tickLow++;
 	
-	puts("Tick: ");
-	printd(tickLow);
-	putc('\n');;
+	if(tickLow % 50 == 0) {
+		seconds++;
+	}
+	if(sleep_time != 0) {
+		sleep_time--;
+	}
 }
