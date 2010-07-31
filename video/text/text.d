@@ -20,6 +20,9 @@ Screen screen;
 ubyte getAttr() {
 	return screen.attr;
 }
+void setAttr(ubyte attribute) {
+	screen.attr = attribute;
+}
 
 uint getY() {
 	return screen.pos.y;
@@ -83,6 +86,11 @@ void internal_puts(char* string) {
 void puts(char* string) {
 	internal_puts(string);
 	moveCursor();
+}
+
+void putsln(char* string) {
+	internal_puts(string);
+	putc('\n');
 }
 
 void printx(uint n) {

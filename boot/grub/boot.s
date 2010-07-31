@@ -15,6 +15,8 @@ MBOOT_CHECKSUM		equ -(MBOOT_HEADER_MAGIC + MBOOT_HEADER_FLAGS)
 [EXTERN bss]
 [EXTERN end]
 
+STACKSIZE equ 0x4000
+
 mboot:
 	dd	MBOOT_HEADER_MAGIC
 	
@@ -31,14 +33,16 @@ mboot:
 [EXTERN main]
 
 start:
-		enter 	0,0
-		
-		cli
+		mov		esp, stack+STACKSIZE
 		
 		push	ebx
 		push	eax
 		
 		call 	main
 		
-		leave
 		jmp		$
+
+section .bss		
+align 4
+stack:
+	resb STACKSIZE

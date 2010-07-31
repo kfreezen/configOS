@@ -1,11 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 # copy over important files
 
-sudo rm /media/GRUB/system/kernel.sys
-sudo cp kernel.sys /media/GRUB/system/kernel.sys
-
-# refresh
-
-sudo umount /media/GRUB
+sudo /sbin/losetup /dev/loop0 files/grub_disk.img
 sudo mount /dev/loop0 /media/GRUB
+sudo cp kernel.sys /media/GRUB/system/kernel.sys
+sudo umount /dev/loop0
+sudo /sbin/losetup -d /dev/loop0
