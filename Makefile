@@ -38,9 +38,8 @@ clean:
 link:
 	@echo Object Files are $(SOURCES)
 	$(SILENT)ld $(LDFLAGS) -o $(KERNEL) $(SOURCES) -melf_i386
-	./refresh
+	$(SILENT)./refresh
 	-$(SILENT)rm $(SOURCES)
-	objdump -d kernel.sys > kernel.asm
 %.od:%.d
 	$(COMPILER) $(COMPILERFLAGS) $< -o $@
 	
