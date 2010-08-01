@@ -1,5 +1,7 @@
 module kernel.multiboot;
 
+const uint BOOTDEV = 1<<1;
+
 struct aout_symbol_table {
 	uint tabsize;
 	uint strsize;
@@ -43,3 +45,6 @@ struct multiboot_info {
 	ushort vbe_interface_off;
 	ushort vbe_interface_len;
 }
+
+multiboot_info* multiboot;
+

@@ -7,6 +7,7 @@ import misc.common;
 
 import video.text.text;
 import video.text.misc;
+import kernel.panic;
 
 const uint PRESENT = 1<<0;
 const uint READ_WRITE = 1<<1;
@@ -22,11 +23,86 @@ struct pageTable {
 
 uint* kernelDir;
 pageTable* tables;
-uint nframes = 8; // one frame equals 4 MiB
-void initPaging() {
+uint nframes; // one frame equals 4 MiB - set by initPaging when called
+/* Bitset implementation */
+/**
+	allocFrame(pid) : This allocates 4 MiB to a program
+	freeFrame(frame, pid) : This frees 4 MiB if it is used by pid
+	freeAll(pid) : free all frames used by pid
+	firstFreeFrame() : finds the first free frame
+**/
+
+const ushort ALLOCATED = 1<<15;
+const ushort PID = 0b0000000111111111;
+const uint ERROR = 0xFFFFFFFF;
+
+ushort* bitset;
+/*
+	frame overview layout:
+		15: Allocated
+		10-14: reserved
+		0-9: PID of process using frame, if Allocated is 0, ignore this
+*/
+
+const bool DEALLOCATED = true;
+const bool NO_DEALLOCATION = false;
+
+void freeAll(ushort pid) {
+	int i;
+	for(i = 0; i < nframes; i++) {
+		if((bitset[i] & PID) == pid) {
+			freeFrame(i, pid);
+		}
+	}
+}
+
+bool freeFrame(uint frame,ushort pid) {
+	if((frame & PID) == pid) {
+		frame &= ~(PID | ALLOCATED);
+		return DEALLOCATED;
+	} else {
+		return NO_DEALLOCATION;
+	}
+}
+
+uint allocFrame(ushort pid) {
+	uint frame = firstFreeFrame();
+	if(frame == ERROR) {
+		panic("No frames available!");
+	} else {
+		frame |= ALLOCATED;
+		frame &= ~(PID);
+		frame |= pid;
+		return frame;
+	}
+}
+
+uint firstFreeFrame() {
+	int i;
+	for(i = 0; i < nframes; i++) {
+		if((bitset[i] & ALLOCATED) == 0) {
+			// we found ourselves a free frame
+			return i;
+		}
+	}
+	// No free frames were available, return ERROR
+	return ERROR;
+}
+
+void initVirtualMemoryManager() {
+	bitset = cast(ushort*) kmalloc_a(nframes*ushort.sizeof);
+	
+}
+
+
+
+/* Paging */
+void initPaging(uint sizeOfMemInMB) {
 	asm {
 		cli;
 	};
+	
+	nframes = sizeOfMemInMB / 4;
 	
 	kernelDir = cast(uint*) kmalloc_a(0x1000);
 	tables = cast(pageTable*) kmalloc_a(pageTable.sizeof*1024);
@@ -59,7 +135,6 @@ void initPaging() {
 		mov CR0, EAX;
 		sti;
 	};
-	putsln("Enabled paging!");
 }
 void pageFault(registers regs) {
 	uint faultingAddr;

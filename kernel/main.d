@@ -3,76 +3,38 @@ module kernel.main;
 import video.text.text;
 import video.text.misc;
 
-import kernel.x86.gdt;
-import kernel.x86.idt;
 import kernel.x86.pit;
-import kernel.x86.paging;
 import kernel.multiboot;
 import kernel.x86.memory;
 import kernel.x86.keyboard;
+import misc.common;
+import kernel.x86.init;
+import kernel.x86.floppy;
 
 multiboot_info* multiboot;
 
-extern(C) void main(uint magic, multiboot_info* multibootAddr) {
-	multiboot = multibootAddr;
+extern(C) void main() {
 	
-	initGdt();
-	initIdt();
-	initPaging();
-	
-	ttyInit();
-	
-	asm {
-		sti;
-	};
-	
-	initTimer(50);
-	initKeyboard();
-	
-	asm {
-		sti;
-	};
+	ubyte* sector;
 	
 	puts("configOS v0.1.6 prerelease\n");
 	puts("work branch\n");
 
-	fakieConsole();
-}
-
-char buffer[512];
-
-public static void fakieConsole() {
-	while(1) {
-		puts(">>>");
-		getline();
+	putc('\n');
+	displaySystemInfo();
+	sector = floppyReadSector(0);
 	
-		if(!strcmp(buffer.ptr, "hello")) {
-			putsln("Hello, osdev from console!");
-		}
-	}
-}
-
-void getline() {
-	ubyte c;
-	uint i;
-	
-	while((c = getc()) != '\n') {
-		if(c == '\b' && i != 0) {
-			buffer[i--] = 0;
-			putc('\b');
-		} else if(c >= ' ') {
-			buffer[i++] = c;
-			putc(c);
+	int i;
+	for(i = 0; i < 512; i++) {
+		printx(sector[i]);
+		putc(' ');
+		if((i % 32) == 0) {
+			putc('\n');
+			getc();
 		}
 	}
 	putc('\n');
-	buffer[i] = 0;
-}
-
-int strcmp (char * s1, char * s2)
-{
-    for(; *s1 == *s2; ++s1, ++s2)
-        if(*s1 == 0)
-            return 0;
-    return (cast(ubyte*) s1 < cast(ubyte*) s2) ? -1 : 1;
+	
+	printx(cast(uint) sector);
+	putc('\n');
 }

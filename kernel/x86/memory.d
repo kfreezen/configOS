@@ -20,10 +20,6 @@ void memdebug() {
 void* kmalloc(uint size) {
 	void* ret = placementAddr;
 	
-	puts("\nplacementAddr = ");
-	printx(cast(uint) placementAddr);
-	putc('\n');
-	
 	placementAddr += size;
 	return ret;
 }
