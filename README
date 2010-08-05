@@ -1,0 +1,18 @@
+ToC
+
+1. Compiling from source
+2. Revision History of README
+
+1.
+
+Dependencies that do not come stock on a ubuntu install:
+      gdc
+
+Simply cd to your source directory and run "make".
+Note: make starts qemu automatically if it is installed
+
+2.
+
+v0.1:
+
+Added basic information
